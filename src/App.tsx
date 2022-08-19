@@ -82,15 +82,15 @@ export default function App() {
           value: ethers.utils.parseEther("0.001"),
         });
 
-        await coffeTxn.wait();
+        await coffeTxn.wait()
+        setBuyerName("")
+        setBuyerMessage("")
+        setIsBuying(false)
 
         console.log("Coffe bought, mined!", coffeTxn.hash);
 
         setMemos((previous) => [...previous, coffeTxn])
 
-        setBuyerName("");
-        setBuyerMessage("");
-        setIsBuying(false)
       }
     } catch (error) {
       console.log(error);
@@ -207,7 +207,7 @@ export default function App() {
   useEffect(() => {
     getMemos()
     getContractFunds()
-  }, [memosList, contractFunds])
+  }, [memosList, isBuying])
 
   return (
     <div className={styles.screenWrapper}>
@@ -222,16 +222,19 @@ export default function App() {
           </h1>
 
           <div>
-            {!currentAccount && (
-              <div className={styles.contentWrapper}>
-                <button className={styles.buyCoffeButton} onClick={connectWallet}>
-                  {isLoading ? <CircleNotch className={styles.loading} size={28} /> : 'Connect your wallet'}
-                </button>
-              </div>
-            )}
+            <>
+              {!currentAccount &&
+                <div className={styles.contentWrapper}>
+                  <button className={styles.buyCoffeButton} onClick={connectWallet}>
+                    {isLoading ? <CircleNotch className={styles.loading} size={28} /> : 'Connect your wallet'}
+                  </button>
+                </div>
+              }
+              {currentAccount && 
                 <div className={styles.contentWrapper}>
                   <label htmlFor="name">Name</label>
                   <input
+                    value={buyerName}
                     onChange={(e) => setBuyerName(e.target.value)}
                     type="text"
                     id="name"
@@ -239,30 +242,31 @@ export default function App() {
 
                   <label htmlFor="message">Send a message</label>
                   <textarea
+                    value={buyerMessage}
                     onChange={(e) => setBuyerMessage(e.target.value)}
                     id="message"
                   />
 
-                  <button className={styles.buyCoffeButton} onClick={buyCoffe} disabled={!isAbleToBuy}>
+                  <button className={styles.buyCoffeButton} onClick={buyCoffe} disabled={!isAbleToBuy || isBuying}>
                     {isBuying ? <CircleNotch className={styles.loading} size={28} /> : 'Send 1 Coffe for 0.001ETH'}
                   </button>
                 </div>
-              
+              }    
 
               {isOwner && currentAccount != '' && (
                 <div className={styles.contentWrapper}>
-                  <button className={styles.buyCoffeButton} onClick={withdrawFunds} disabled={!isAbleToWithdrawFunds}>
+                  <button className={styles.buyCoffeButton} onClick={withdrawFunds} disabled={!isAbleToWithdrawFunds || isWithdrawing}>
                     {isWithdrawing ? <CircleNotch className={styles.loading} size={28} /> : 'Withdraw Contract Funds'}
                   </button>
                 </div>
               )}
-                  
+                    
               {memos.map((memos) => {
                 <div className={styles.memosContainer}>
                   <p>{memos.buyerMessage}</p>
                 </div>
               })}
-
+            </> 
           </div>
         </div>
       </div>
