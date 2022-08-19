@@ -20,7 +20,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isBuying, setIsBuying] = useState<boolean>(false)
   const [isWithdrawing, setIsWithdrawing] = useState<boolean>(false)
-  const [contractFunds, setContractFunds] = useState<number | null>(null)
+  const [contractFunds, setContractFunds] = useState<number>(0)
 
   const isAbleToBuy = buyerName !== '' && buyerMessage !== ''
   const isAbleToWithdrawFunds = contractFunds ? contractFunds > 0 : false
