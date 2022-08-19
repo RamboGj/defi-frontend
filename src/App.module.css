@@ -1,0 +1,151 @@
+.screenWrapper {
+    max-width: 1060px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 4rem auto;
+    padding: 0 1.5rem;
+
+    gap: 4rem;
+}
+
+.balanceCard {
+    border-radius: 16px;
+    background: var(--zinc-800);
+    padding: 2rem 2rem 5rem 2rem;
+
+    width: 300px;
+    height: 100px;
+}
+
+.balanceCard span {
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--sky-500)
+}
+
+.card {
+    border-radius: 16px;
+    background: var(--zinc-800);
+    padding: 2rem 2rem 5rem 2rem;
+    
+    max-width: 500px;
+}
+
+.wrapper {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.wrapper > h1 {
+    margin: 0 auto;
+    padding: 4rem 2rem;
+}
+
+.contentWrapper {
+    max-width: 400px;
+
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+}
+
+h1 > strong {
+    color: var(--sky-500);
+}
+
+input {
+    padding: 0.5rem 1rem;
+    background: var(--zinc-700);
+    color: var(--zinc-100);
+
+    border: 2px solid transparent;
+    border-radius: 8px;
+    outline: none;
+}
+
+input:hover {
+    cursor: pointer;
+    transition-duration: 500ms;
+    background: var(--zinc-500);
+}
+
+input:focus {
+    padding: 0.5rem 1rem;
+    background: var(--zinc-300);
+    color: var(--zinc-900);
+
+    border: 2px solid var(--sky-300);
+}
+
+textarea {
+    padding: 0.5rem 1rem;
+    color: var(--zin-100);
+    background: var(--zinc-700);
+
+    border: 2px solid transparent;
+    border-radius: 8px;
+    outline: none;
+}
+
+textarea:hover {
+    cursor: pointer;
+    transition-duration: 500ms;
+    background: var(--zinc-500);
+}
+
+textarea:focus {
+    padding: 0.5rem 1rem;
+    background: var(--zinc-300);
+    color: var(--zinc-900);
+
+    border: 2px solid var(--sky-300);
+}
+
+.buyCoffeButton {
+    height: 64px;
+    margin-top: 24px;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 0;
+
+    cursor: pointer;
+    background: var(--sky-500);
+
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: var(--zinc-100)
+}
+
+.buyCoffeButton:hover:enabled {
+    transition-duration: 500ms;
+    filter: brightness(1.5);
+}
+
+.buyCoffeButton:disabled {
+    background: var(--sky-900);
+}
+
+.loading {
+  animation-name: spin;
+  animation-duration: 3000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear; 
+}
+
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
+}
+
+.memosContainer {
+    width: 420px;
+    background-color: red;
+}

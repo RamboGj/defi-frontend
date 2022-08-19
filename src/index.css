@@ -1,0 +1,27 @@
+:root {
+  --zinc-900: #18181B;
+  --zinc-800: #27272A ;
+  --zinc-700: #374151;
+  --zinc-500: #71717A;
+  --zinc-300: #D4D4D8;
+  --zin-100: #F3F4F6;
+  
+  --sky-900: #0C4A6E;
+  --sky-700: #0369A1;
+  --sky-500: #0EA5E9;
+  --sky-300: #7DD3FC;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    background: var(--zinc-900);
+    color: var(--zinc-300);
+    font-family: 'Nunito', sans-serif;
+}
+
+h1, textarea, input, button {
+  font-family: 'Nunito', sans-serif;
+}
