@@ -263,7 +263,7 @@ export default function App() {
           <h1><strong>Last 3</strong> Coffes</h1>
 
           <div className={styles.memosListContent}>
-            {memos.slice(0, 3).map((memo) => {
+            {memos.slice(memos.length - 4, memos.length - 1).map((memo) => {
               return (
                 <>
                 <div className={styles.memoData}>
