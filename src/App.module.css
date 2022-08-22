@@ -12,10 +12,10 @@
 .balanceCard {
     border-radius: 16px;
     background: var(--zinc-800);
-    padding: 2rem 2rem 5rem 2rem;
+    padding: 2rem 2rem 3rem 2rem;
 
     width: 300px;
-    height: 100px;
+    height: fit-content;
 }
 
 .balanceCard span {
@@ -23,6 +23,45 @@
     font-weight: bold;
     color: var(--sky-500)
 }
+
+.memosCard {
+    border-radius: 16px;
+    background: var(--zinc-800);
+    padding: 2rem 2rem 3rem 2rem;
+
+    width: 300px;
+    height: fit-content;
+}
+
+.memosCard span {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--sky-500)
+}
+
+.memosCard p {
+    overflow-wrap: break-word;
+}
+
+.memosListContent h1 {
+    font-size: 1.125rem;
+    margin-bottom: 0;
+    color: var(--sky-700);
+}
+
+.memosListContent p {
+    margin: 0 auto;
+}
+
+.memoData {
+    margin-bottom: 2rem;
+}
+
+.memoData strong {
+    font-weight: bold;
+    color: var(--sky-500)
+}
+
 
 .card {
     border-radius: 16px;
@@ -145,7 +184,11 @@ textarea:focus {
     }
 }
 
-.memosContainer {
-    width: 420px;
-    background-color: red;
+.twoSmallerCardsWrapper {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    max-width: 350px;
+    gap: 2rem;
 }

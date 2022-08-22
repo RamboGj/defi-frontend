@@ -1,14 +1,14 @@
 import { ethers } from "ethers";
 import { CircleNotch } from "phosphor-react";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import styles from "./App.module.css";
 import ContractAbi from "./ContractAbi.json";
 
 interface MemosProps {
-  address: string;
-  buyerName: string;
-  buyerMessage: string;
-  timestamp: number;
+  sender: string;
+  name: string;
+  message: string;
+  timestamp: Date;
 }
 
 export default function App() {
@@ -21,6 +21,8 @@ export default function App() {
   const [isBuying, setIsBuying] = useState<boolean>(false)
   const [isWithdrawing, setIsWithdrawing] = useState<boolean>(false)
   const [contractFunds, setContractFunds] = useState<number>(0)
+
+  let memosList: MemosProps[] = []
 
   const isAbleToBuy = buyerName !== '' && buyerMessage !== ''
   const isAbleToWithdrawFunds = contractFunds ? contractFunds > 0 : false
@@ -139,7 +141,6 @@ export default function App() {
 
         const funds = await contract.getContractFunds()
         const formattedFunds = ethers.utils.formatEther(funds.toNumber())
-        console.log("response: ", ethers.utils.formatEther(funds.toNumber()))
         setContractFunds(Number(formattedFunds))
       }
 
@@ -173,8 +174,6 @@ export default function App() {
     }
   }
 
-  let memosList
-
   async function getMemos() {
     try {
       const { ethereum } = window
@@ -192,6 +191,7 @@ export default function App() {
         memosList = await contract.getMemos()
         console.log("memoList: ", memosList)
         setMemos(memosList)
+       
       }
 
     } catch (error) {
@@ -205,15 +205,77 @@ export default function App() {
   }, [currentAccount, isOwner]);
 
   useEffect(() => {
-    getMemos()
     getContractFunds()
-  }, [memosList, isBuying])
+  }, [isBuying])
+
+  useEffect(() => {
+    console.log("memos var:", memos)
+  }, [])
+
+  useEffect(() => {
+    getMemos()
+    let buyMeACoffee: any
+
+    // Create an event handler function for when someone sends
+    // us a new memo.
+    const onNewMemo = (from: string, timestamp: Date, name: string, message: string) => {
+      setMemos((prevState) => [
+        ...prevState,
+        {
+          sender: from,
+          timestamp: timestamp,
+          message: message,
+          name: name
+        }
+      ]);
+    };
+
+    const {ethereum} = window;
+
+    // Listen for new memo events.
+    if (ethereum) {
+      const provider = new ethers.providers.Web3Provider(ethereum, "any");
+      const signer = provider.getSigner();
+      buyMeACoffee = new ethers.Contract(
+        contractAddress,
+        contractAbi,
+        signer
+      );
+
+      buyMeACoffee.on("NewMemo", onNewMemo);
+    }
+
+    return () => {
+      if (buyMeACoffee) {
+        buyMeACoffee.off("NewMemo", onNewMemo);
+      }
+    }
+  }, [])
 
   return (
     <div className={styles.screenWrapper}>
-      <div className={styles.balanceCard}>
-          <h1>Contract <strong>Funds</strong></h1>
-          <span>{`${contractFunds} ETH`}</span>
+      <div className={styles.twoSmallerCardsWrapper}>
+        <div className={styles.balanceCard}>
+            <h1>Contract <strong>Funds</strong></h1>
+            <span>{`${contractFunds} ETH`}</span>
+        </div>
+        <div className={styles.memosCard}>
+          <h1><strong>Last 3</strong> Coffes</h1>
+
+          <div className={styles.memosListContent}>
+            {memos.slice(0, 3).map((memo) => {
+              return (
+                <>
+                <div className={styles.memoData}>
+                  <h1>{memo.name}</h1>
+                  <p><strong>Message:</strong> {memo.message}</p>
+                  <p><strong>Sender:</strong> {memo.sender}</p>
+                </div>
+                </>
+              )
+            })}
+          </div>
+        </div>
       </div>
       <div className={styles.card}>
         <div className={styles.wrapper}>
@@ -261,11 +323,7 @@ export default function App() {
                 </div>
               )}
                     
-              {memos.map((memos) => {
-                <div className={styles.memosContainer}>
-                  <p>{memos.buyerMessage}</p>
-                </div>
-              })}
+              
             </> 
           </div>
         </div>
